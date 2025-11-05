@@ -11,10 +11,7 @@ namespace Components.ProceduralGeneration.SimpleRoomPlacement
 {
     [CreateAssetMenu(menuName = "Procedural Generation Method/Simple Room Placement")]
     public class SimpleRoomPlacement : ProceduralGenerationMethod
-    {
-        [Header("Room Parameters")]
-        [SerializeField] private int _maxRooms = 10;
-        
+    {        
         protected override async UniTask ApplyGeneration(CancellationToken cancellationToken)
         {
             // Declare variables here
