@@ -38,5 +38,10 @@ namespace VTools.Grid
         {
             return new Vector3(Coordinates.x + _size / 2, 0, Coordinates.y + _size / 2) * _size + originPosition;
         }
+
+        public void ChangeSkin(string newSkin)
+        {
+            View.ChangeSkin(newSkin);
+        }
     }
 }

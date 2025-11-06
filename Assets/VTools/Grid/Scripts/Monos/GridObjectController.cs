@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using VTools.Utility;
 
 namespace VTools.Grid
@@ -6,7 +7,9 @@ namespace VTools.Grid
     public class GridObjectController : MonoBehaviour
     {
         public GridObject GridObject { get; private set; }
-        
+
+        [SerializeField] private SpriteRenderer spriteRenderer;
+
         public void Initialize(GridObject gridObject)
         {
             GridObject = gridObject;
@@ -34,6 +37,15 @@ namespace VTools.Grid
         {
             GridObject.SetGridData(cell, grid);
             MoveTo(cell.GetCenterPosition(grid.OriginPosition));
+        }
+
+        public void ChangeSkin(string skin)
+        {
+            var newSprite = Resources.Load(skin) as Sprite;
+            if (newSprite == null)
+                return;
+
+            spriteRenderer.sprite = newSprite;
         }
     }
 }

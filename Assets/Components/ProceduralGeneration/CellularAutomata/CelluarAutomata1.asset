@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fafd1bd6002b8e4ca3ba768d886414a, type: 3}
   m_Name: CelluarAutomata1
   m_EditorClassIdentifier: 
-  _maxSteps: 1000
+  _maxSteps: 10
+  GroundRatio: 0.45
+  GroundSisterNeeded: 4

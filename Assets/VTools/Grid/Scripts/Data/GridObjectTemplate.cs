@@ -9,7 +9,12 @@ namespace VTools.Grid
         [SerializeField] protected string _name;
         [SerializeField] protected GridObjectController _view;
 
-        public string Name => _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
         public GridObjectController View => _view;
 
         public virtual GridObject CreateInstance()
