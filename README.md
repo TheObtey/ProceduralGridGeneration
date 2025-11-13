@@ -1,24 +1,46 @@
-Classe : CellularAutomata
-Description : Implémente une méthode de génération procédurale basée sur un automate cellulaire (au même titre que le jeu de la vie de Connway). Elle remplie une grille avec deux type de cellule : terre et eau.
-Règle / algorithme : on regarde les 8 cellules voisine d'une cellule, si X cellules (ou plus) sont de type 'TERRE', alors la cellule observé deviendra également de type 'TERRE'.  
+## CellularAutomata
 
-Fonctionnement :
+Cette classe implémente une méthode de génération procédurale basée sur un automate celullaire, dans l'esprit du jeu de la vie de Connway. Son rôle est de remplir une grille avec deux type de cellules : terre et eau, et d'obtenir progressivement une carte cohérente à partir d'un bruit initial.
+
+### Fonctionnement général
+
+L'algorithme repose sur un principe simple : pour chaque cellule, on observe ses 8 voisines.
+Si au moins **X** d'entre elles sont de type *TERRE*, alors la cellule observé devient elle aussi *TERRE*.
+En répétant cette opération plusieurs fois, la grille s'uniformise et forme des masses de terrain naturelles.
+
+---
 
 1. Initialisation
 
-   Initialise deux buffers (currentBuffer et nextBuffer) de la même taille que la grille.
+La classe initialise deux buffers, `currentBuffer` et `nextBuffer`, tous les deux sont de la taille de la grille.
+Ils permettent de calculer l'état futur des cellules sans modifier immédiatement l'état courant.
+
+---
 
 2. Bruit initial
 
-   La méthode CreateNoise va populate currentBuffer de cellules. Elle utilise GroundRatio pour déterminer la quantité de terre par rapport à la quantité d'eau.
+La méthode `CreateNoise` remplit `currentBuffer` avec un mélange de cellules eau/terre.
+Le ratio est déterminé par `GroundRatio` qui contrôle la proportion de terre initiale.
+
+---
 
 3. Affinage par itération
 
-   - Pour chaque cellule on calcule `nextBuffer[x, y] = SurroundedByGround(x, y)`.
-   - SurroundedByGround regarde les 8 cellules voisine de type 'TERRE' de la cellule observé. La méthode retourne `true` si ce nombre est supérieur ou égal à GroundSisterNeeded (le nombre de cellule 'terre' nécessaire pour convertir une cellule).
-   - Si une cellule change d'état entre currentBuffer et nextBuffer, sont skin est changé pour correspondre au nouvel état.
-   - Pour finir, on swap currentBuffer et nextBuffer, on attend GridGenerator.StepDelay, et on répète l'opération _maxSteps fois.
+Pour chaque étape du processus:
+
+- On calcule `nextBuffer[x, y] = SurroundedByGround(x, y)`.
+- `SurroundedByGround` compte le nombre de cellules voisines de type *TERRE*.
+  Si ce nombre est supérieur ou égal à `GroundSisterNeeded`, la cellule devient *TERRE*.
+- Si une cellule change d'état entre les deux buffers, son apparence est mise à jour.
+- A chaque itération, les buffers sont swap, on attend `GridGenerator.StepDelay` (délai pour mieux visualiser chaque itération), puis on recommence.
+
+Le tout est répété `_maxSteps` fois.
+
+---
 
 4. Résultat
 
-   Au fur et à mesure de l'affinage, le bruit s'uniformise pour former des masses de terre cohérente entouré d'eau.
+Au fil des itération, le bruit initial se stabilise et donne naissance à des zones de terre cohérentes entourées d'eau.
+L'algorithme permet ainsi de générer des formes naturelles à partir d'un simple bruit.
+
+![cellularAutomataGIF](https://i.imgur.com/ibB0hHK.gif)
