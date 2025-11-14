@@ -163,3 +163,18 @@ Au final, cette méthode produit un donjon composé :
 Cet algorithme offre une base simple pour générer des donjons procéduralement.
 
 ![SimpleRoomPlacementGIF](https://i.imgur.com/qbyXUih.gif)
+
+---
+
+## BSP (Binary Space Partitioning)
+
+Je n'ai pas réussi à coder cette méthode, mais j'ai quand même compris le principe.
+
+---
+
+Le BSP est une méthode récursive, on découpe la grille en deux, puis on reprend chaque moitié et on les recoupe encore en deux.
+On continue comme ça plusieurs fois, jusqu'à obtenir plusieurs petits rectangles. Dans chaque rectangle final, on place une salle. Et comme toute ces zones proviennent d'une découpe logique, il suffit ensuite de relier les salles en suivant ces découpes pour créer des couloirs cohérent.
+
+Comme chaque découpe en crée deux nouvelles, le BSP forme naturellement un arbre logique qui organise toutes les zones entre elles.
+
+![BinarySpacePartitioningImage](https://www.tutorialspoint.com/computer_graphics/images/what_are_bsp_trees.jpg)
