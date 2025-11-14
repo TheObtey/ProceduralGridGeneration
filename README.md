@@ -1,6 +1,6 @@
 ## CellularAutomata
 
-Cette classe implémente une méthode de génération procédurale basée sur un automate celullaire, dans l'esprit du jeu de la vie de Connway. Son rôle est de remplir une grille avec deux type de cellules : terre et eau, et d'obtenir progressivement une carte cohérente à partir d'un bruit initial.
+Cette classe implémente une méthode de génération procédurale basée sur un automate cellulaire, dans l'esprit du jeu de la vie de Connway. Son rôle est de remplir une grille avec deux type de cellules : terre et eau, et d'obtenir progressivement une carte cohérente à partir d'un bruit initial.
 
 ### Fonctionnement général
 
@@ -19,8 +19,8 @@ Ils permettent de calculer l'état futur des cellules sans modifier immédiateme
 
 2. Bruit initial
 
-La méthode `CreateNoise` remplit `currentBuffer` avec un mélange de cellules eau/terre.
-Le ratio est déterminé par `GroundRatio` qui contrôle la proportion de terre initiale.
+La méthode `CreateNoise` remplit `currentBuffer` avec un mélange de cellules eau/terre de manière aléatoire.
+Le ratio de terre est déterminé par `GroundRatio` qui contrôle la proportion de terre initiale.
 
 ---
 
