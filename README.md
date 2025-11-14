@@ -97,3 +97,69 @@ Le type de la cellule est ensuite utilisé dans la méthode `AddTileToCell`, qui
 Une fois la grille parcourue, la carte affiche une répartition naturelle des terrains : des zones d’eau entouré par du sable, des plaines d’herbe, et quelques rochers. Grâce au bruit **OpenSimplex2**, les formes sont organiques et variées, sans motifs répétitifs.
 
 ![openSimplex2GIF](https://i.imgur.com/2BbgxZj.gif)
+
+---
+
+## SimpleRoomPlacement
+
+Cette classe implémente une méthode de génération simple basée sur le placement aléatoire de salle et la création de couloirs qui les relient. L'objectif est d'obtenir une structure de type "donjon" (plusieurs pièces séparés, connectées par des couloirs).
+
+---
+
+### Fonctionnement général
+
+L'algorithme suit deux grandes étapes :
+
+1. Placer progressivement des salles rectangulaire de taille fixe sur la grille, en évitant qu'elles se chevauchent.
+2. Relier les salles entre elles à l'aide de couloirs en forme de L, en connectant les centres de chaque salle dans l'ordre de création.
+
+Une fois ces étapes terminées, un sol uniforme est construit sur toute la grille afin de servir de base visuelle au donjon.
+
+---
+
+1. Placement des salles
+
+La méthode commence par créer une liste vide `roomList` qui stockera les salles validées. Ensuite, elle répète jusqu'à `_maxSteps` fois la tentative suivante :
+
+- Choisir une position aléatoire X;Y dans la grille.
+- Construire un rectangle `RectInt room = new RectInt(x, y, 10, 10)` représentant une salle de taille 10x10.
+- Vérifier si cette salle peut être placée via `CellAvailable(room)` :
+  - La méthode s'assure que toutes les cellules du rectangle (+ une bordure autour) soient libre.
+  - Si une cellule est hors grille ou déjà occupé (`cell.ContainObject`), la salle est rejetée.
+- Si la salle est validé :
+  - `PlaceRoom(room)` remplit la zone avec des cellules de type *SALLE*.
+  - La salle est ajoutée à `roomList`.
+  - Le délai `GridGenerator.StepDelay` est appliqué pour visualiser l'apparition de la salle.
+
+Cette phase produit un ensemble de salles séparé, et espacées les unes des autres.
+
+---
+
+2. Connexion des salles
+
+Une fois les salles placées, l'algorithme parcourt la liste `roomList` et connecte chaque salle avec la suivante.
+
+- Pour chaque paire de salles consécutives, on récupère leurs centres via `roomList[i].GetCenter()` et `roomList[i + 1].GetCenter()`.
+- La méthode `ConnectRooms(a, b)` trace un couloir en deux temps :
+  - D'abord une ligne horizontale entre `a.x` et `b.y` sur la ligne `a.y`.
+  - Puis une ligne verticale entre `a.y` et `b.y` sur la colonne `b.x`.
+- A chaque cellule traversée, une cellule de type *CORRIDOR* est posée.
+
+Cela crée des couloirs en forme de **L** qui relient chaque salle à la suivante, formant un chemin continu à travers le donjon.
+Entre chaque connexion, un délai (`GridGenerator.StepDelay`) permet de voir les couloirs se dessiner progressivement.
+
+Une fois les salles et les couloirs dessinés, un sol est créé à son tour.
+
+---
+
+4. Résultat
+
+Au final, cette méthode produit un donjon composé :
+
+- De plusieurs salles rectangulaires de taille identique, dispersées aléatoirement mais sans se chevaucher.
+- De couloirs en forme de **L** qui relient les salles entre elles, garantissant une structure navigable.
+- D'un sol uniforme recouvrement toute la grille, servant de base à l'ensemble.
+
+Cet algorithme offre une base simple pour générer des donjons procéduralement.
+
+![SimpleRoomPlacementGIF](https://i.imgur.com/qbyXUih.gif)
