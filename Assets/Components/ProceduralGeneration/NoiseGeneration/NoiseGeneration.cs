@@ -40,8 +40,9 @@ public class NoiseGeneration : ProceduralGenerationMethod
 
                 AddTileToCell(cell, tileName, true);
             }
+            await UniTask.Delay(GridGenerator.StepDelay, cancellationToken: cancellationToken);
         }
 
-        await UniTask.Delay(GridGenerator.StepDelay, cancellationToken: cancellationToken);
+        //await UniTask.Delay(GridGenerator.StepDelay, cancellationToken: cancellationToken);
     }
 }
